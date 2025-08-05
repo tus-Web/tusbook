@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tusbook
+理科大総合情報サイト
 
-## Getting Started
+1. 授業レビュー　（こっちで人集めて）
+2. 学食レビュー　（こっちも盛り上げる）
 
-First, run the development server:
+## 授業レビュー
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+最小限の機能
+1. classから、授業をとって表示する
+（評価を表示する）
+2. レビューを読み書きできるようにする
+レビューについてはもっと細かくする
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+---------------------------------------------
+# Memo
+## あったら使うサービス
+- 授業レビュー
+- アドバイス
+- 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 解決したい課題
+学食の地雷踏みがち
 
-## Deploy on Vercel
+### 目標
+レビューを表示して、地雷を踏まないようにする
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 最小限の機能
+- 学食のメニューを表示
+- サークル内でコメント
+------------------------
+レビュワーにメリットがない
+まずいのを共有したい　-> x
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+一部機能として、レビューがあるのかはいいかな
+サイト訪問したら何ができるの？
+メリットの機能も作らないと見られないかも？
+
+- レビューしたら、おすすめのレコメンドアルゴリズムでおすすめ表示
+- 待ち人数を表示する（むずい）、聞いてみる？　テレビのどう取ってくるか
+- 今頼まれている料理のランキング
+- 週間予定表を表示（何日ごの昼食を考えない？）
+- お気に入り登録すると、その日に通知
+- 
+
+どうする？
+
+
+- みんながコメント
+- レビューが活発化
+
+
+
