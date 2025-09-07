@@ -1,26 +1,24 @@
-import Image from "next/image";
+"use client";
+import Link from "next/link";
 import styles from "./page.module.css";
 
-export default function Home() {
-  return (
-     <div className={styles.main}>
-      <h1>授業レビュー</h1>
-      <h2>数学演習１</h2>
+export default function Menu() {
+    const subjects = [
+        { id: "udon", name: "うどん" },
+        { id: "shio_ramen", name: "塩ラーメン" },
+        { id: "omuraisu", name: "オムライス" },
+    ];
 
- {/* 回答を記録するときはformタグを使います */}
- {/*データを保存したいときはsupabaseを使います*/}
-      <form action="" className={styles.form}>
-        <textarea
-          name="content" // addReview関数で取り出すための名前
-          rows={4}
-          placeholder="レビューを記入してください..."
-          required
-        />
-        <button type="submit" className={styles.button}>
-          レビューを投稿
-        </button>
-  
-        </form>
-    </div>
-  )
-  }
+    return (
+        <main　className={styles.main}>
+            <h1>学食レビュー</h1>
+            <ul　className={styles.ul}>
+                {subjects.map((subject) => (
+                    <li key={subject.id} className={styles.li}>
+                        <Link href={`/${subject.id}`}>{subject.name}</Link>
+                    </li>
+                ))}
+            </ul>
+        </main>
+    );
+}

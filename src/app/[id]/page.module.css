@@ -97,11 +97,3 @@
   color: var(--button-primary-text);
   cursor: pointer;
 }
-
-.ul,
-.li {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-}
