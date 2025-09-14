@@ -56,7 +56,7 @@ export default function ReviewPage() {
 
   const checkReviewLength = (reviewText: string | any[]) => {
     if (reviewText.length === 0) {
-      alert('ここにレビューを書いてね！');
+      alert('ちゃんとレビューを書いてね😢');
       return false;
     }
     return true;
@@ -108,8 +108,8 @@ return (
         <textarea
           value={reviewText}
           onChange={handleTextChange}
-          rows={4}
-          placeholder="レビューを記入してください..."
+          rows={12}
+          placeholder="ここにレビューを書いてね！"
           required
         />
         <button type="submit" className={styles.button} onClick={handleSubmit}>
