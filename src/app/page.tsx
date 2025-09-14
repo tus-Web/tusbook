@@ -2,14 +2,23 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import { useState } from "react";
-import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { createClient } from '@supabase/supabase-js';
+import Image from "next/image";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
+
+// Review型の定義
+type Review = {
+    id: number;
+    text: string;
+    menu_name: string;
+    rating: number;
+    good: number;
+};
 
 export default function Menu() {
     const subjects = [
@@ -18,8 +27,7 @@ export default function Menu() {
         { id: "omuraisu", name: "オムライス" },
     ];
 
-    const [reviews, setReviews] = useState<any[]>([]);
-    const [rankedSubjects, setRankedSubjects] = useState<any[]>([]);
+    const [rankedSubjects, setRankedSubjects] = useState<{menu_name: string, average: number}[]>([]);
     
     useEffect(() => {
         const fetchReviews = async () => {
@@ -27,11 +35,9 @@ export default function Menu() {
                 .from('reviews')
                 .select('*');
             if (!error && data) {
-                setReviews(data);
-
                 // 料理ごとに点数を集計（ratingカラムを使用）
                 const scores: Record<string, number[]> = {};
-                data.forEach((review: any) => {
+                data.forEach((review: Review) => {
                     if (!scores[review.menu_name]) scores[review.menu_name] = [];
                     scores[review.menu_name].push(review.rating);
                 });
@@ -66,7 +72,13 @@ export default function Menu() {
                     <div className="menu-item">
                     <li key={subject.id} className={styles.li}>
                         <Link href={`/${subject.id}`}>{subject.name}</Link>
-                        <img src={`/images/${subject.id}.webp`} alt={subject.name} className={styles.img} />
+                        <Image 
+                            src={`/images/${subject.id}.webp`} 
+                            alt={subject.name} 
+                            className={styles.img}
+                            width={200}
+                            height={150}
+                        />
                     </li>
                     </div>
                 ))}

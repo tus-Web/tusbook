@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,6 +12,15 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
 
+// Review型の定義
+type Review = {
+  id: number;
+  text: string;
+  menu_name: string;
+  rating: number;
+  good: number;
+};
+
 const subjects = {
   kake: { h2: "かけ" },
   shio_ramen: { h2: "塩ラーメン" },
@@ -22,20 +30,15 @@ const subjects = {
 export default function ReviewPage() {
 
   const params = useParams(); //URLのidを取得するらしい
+  const [reviewText, setReviewText] = useState('');
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [rating, setRating] = useState(5);
+
   const subject = subjects[params.id as keyof typeof subjects]; //URLのidに対応する情報を取得するらしい
 
-  //存在しないidが指定された場合
-  if (!subject) {
-    return <div>
-      <p>該当するものが見つかりませんでした。</p>
-      <Link href="/">戻る</Link>
-    </div>;
-  }
-  const [reviewText, setReviewText] = useState('');
-  const [reviews, setReviews] = useState<any[]>([]);
-  const [rating, setRating] =useState(5);
-
   useEffect(() => {
+    if (!subject) return;
+    
     const fetchReviews = async () => {
       const {data, error} = await supabase
         .from('reviews')
@@ -48,26 +51,35 @@ export default function ReviewPage() {
       }
     };
     fetchReviews();
-   },[subject.h2]);
+   },[subject?.h2]);
 
-  const handleTextChange = (e) => {
+  //存在しないidが指定された場合
+  if (!subject) {
+    return <div>
+      <p>該当するものが見つかりませんでした。</p>
+      <Link href="/">戻る</Link>
+    </div>;
+  }
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReviewText(e.target.value);
   };
 
-  const checkReviewLength = (reviewText: string | any[]) => {
+  const checkReviewLength = (reviewText: string) => {
     if (reviewText.length === 0) {
       alert('ちゃんとレビューを書いてね😢');
       return false;
     }
     return true;
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       if (!checkReviewLength(reviewText)) {
         return;
       }
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('reviews')
         .insert([
           {
@@ -77,6 +89,10 @@ export default function ReviewPage() {
             good: 0,
           },
         ]);
+
+      if (error) {
+        throw error;
+      }
 
       alert('やったー！😚投稿完了');
       setReviewText('');
@@ -100,7 +116,7 @@ return (
 
       {/* 回答を記録するときはformタグを使います */}
       {/*データを保存したいときはsupabaseを使います*/}
-      <form action="" className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form}>
 
         <h2>評価 {rating}</h2>
         <input type="range" min="0" max="5" step="0.5" value={rating} onChange={(e) => setRating(parseFloat(e.target.value))} />
@@ -112,7 +128,7 @@ return (
           placeholder="ここにレビューを書いてね！"
           required
         />
-        <button type="submit" className={styles.button} onClick={handleSubmit}>
+        <button type="submit" className={styles.button}>
           レビューを投稿
         </button>
       </form>
@@ -124,10 +140,16 @@ return (
 
             {review.text} (評価: {review.rating})
             <button type="submit" onClick={async () => {
-              const { data,error } = await supabase
+              const { error } = await supabase
                 .from('reviews')
                 .update({ good: review.good + 1 })
                 .eq('id', review.id);
+                
+                if (error) {
+                  console.error('いいね更新エラー:', error);
+                  return;
+                }
+                
                 //再び一覧を取得(ただし順序は変えない)
                const { data: newReviews}= await supabase
                 .from('reviews')
