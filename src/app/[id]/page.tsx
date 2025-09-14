@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import { useState } from "react";
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -33,28 +34,60 @@ export default function ReviewPage() {
     </div>;
   }
   const [reviewText, setReviewText] = useState('');
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [rating, setRating] =useState(5);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const {data, error} = await supabase
+        .from('reviews')
+        .select('*')
+        .eq('menu_name',subject.h2)
+        .order('created_at',{ ascending: false });
+
+      if(!error && data) {
+        setReviews(data);
+      }
+    };
+    fetchReviews();
+   },[subject.h2]);
 
   const handleTextChange = (e) => {
     setReviewText(e.target.value);
   };
 
-  const handleSubmit = async () => {
+  const checkReviewLength = (reviewText: string | any[]) => {
+    if (reviewText.length === 0) {
+      alert('レビューを記入してください');
+      return false;
+    }
+    return true;
+  };
+  const handleSubmit = async (e) => {
     try {
+      if (!checkReviewLength(reviewText)) {
+        return;
+      }
+
       const { data, error } = await supabase
         .from('reviews')
         .insert([
           {
             text: reviewText,
             menu_name: subject.h2,
+            rating: rating,
           },
         ]);
 
-      if (error) {
-        throw error;
-      }
-
       alert('投稿完了');
-      console.log(comments);
+      setReviewText('');
+      //投稿後に一覧を再取得
+      const { data: newReviews}= await supabase
+        .from('reviews')
+        .select('*')
+        .eq('menu_name',subject.h2)
+        .order('created_at',{ ascending: false});
+      setReviews(newReviews || []);
     }
     catch (error) {
       alert('投稿失敗');
@@ -69,6 +102,10 @@ export default function ReviewPage() {
       {/* 回答を記録するときはformタグを使います */}
       {/*データを保存したいときはsupabaseを使います*/}
       <form action="" className={styles.form}>
+
+        <h2>評価 {rating}</h2>
+        <input type="range" min="0" max="5" step="0.5" value={rating} onChange={(e) => setRating(parseFloat(e.target.value))} />
+
         <textarea
           value={reviewText}
           onChange={handleTextChange}
@@ -81,7 +118,16 @@ export default function ReviewPage() {
         </button>
       </form>
 
-      <h2>コメント</h2>
+      <h2>レビュー一覧</h2>
+      <ul>
+        {reviews.map((review) => (
+          <li key={review.id}>
+            {review.text} (評価: {review.rating})
+          </li>
+        ))}
+      </ul>
+
+      
 
 
       <Link href="/">戻る</Link>
