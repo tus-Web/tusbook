@@ -13,7 +13,7 @@ const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
 
 export default function Menu() {
     const subjects = [
-        { id: "udon", name: "うどん" },
+        { id: "kake", name: "かけ" },
         { id: "shio_ramen", name: "塩ラーメン" },
         { id: "omuraisu", name: "オムライス" },
     ];
@@ -65,6 +65,7 @@ export default function Menu() {
                 {subjects.map((subject) => (
                     <li key={subject.id} className={styles.li}>
                         <Link href={`/${subject.id}`}>{subject.name}</Link>
+                        <img src={`/images/${subject.id}.webp`} alt={subject.name} className={styles.img} />
                     </li>
                 ))}
             </ul>

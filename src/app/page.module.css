@@ -106,3 +106,10 @@
   margin: 0;
   text-align: center;
 }
+
+.img{
+  width:200px;
+  height:200px;
+  padding:5px;
+
+}

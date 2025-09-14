@@ -14,7 +14,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
 
 const subjects = {
-  udon: { h2: "うどん" },
+  kake: { h2: "かけ" },
   shio_ramen: { h2: "塩ラーメン" },
   omuraisu: { h2: "オムライス" },
 };
