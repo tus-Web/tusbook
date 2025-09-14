@@ -108,8 +108,8 @@ return (
         <textarea
           value={reviewText}
           onChange={handleTextChange}
-          rows={4}
-          placeholder="レビューを記入してください..."
+          rows={12}
+          placeholder="レビューを書いてね！"
           required
         />
         <button type="submit" className={styles.button} onClick={handleSubmit}>
