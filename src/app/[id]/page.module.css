@@ -97,7 +97,7 @@
   background-color: var(--button-primary);
   color: var(--button-primary-text);
   cursor: pointer;
-  &:hover { background-color: var(--button-primary-hover); }
+  hoverz
 }
 
 
