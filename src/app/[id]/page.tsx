@@ -56,7 +56,7 @@ export default function ReviewPage() {
 
   const checkReviewLength = (reviewText: string | any[]) => {
     if (reviewText.length === 0) {
-      alert('レビューを記入してください');
+      alert('ここにレビューを書いてね！');
       return false;
     }
     return true;
@@ -78,7 +78,7 @@ export default function ReviewPage() {
           },
         ]);
 
-      alert('投稿完了');
+      alert('やったー！😚投稿完了');
       setReviewText('');
       //投稿後に一覧を再取得
       const { data: newReviews}= await supabase
@@ -89,7 +89,7 @@ export default function ReviewPage() {
       setReviews(newReviews || []);
     }
     catch (error) {
-      alert('投稿失敗');
+      alert('残念、投稿失敗😢');
     }
   };
 
