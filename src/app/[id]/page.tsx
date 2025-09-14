@@ -43,7 +43,7 @@ export default function ReviewPage() {
         .from('reviews')
         .select('*')
         .eq('menu_name',subject.h2)
-        .order('created_at',{ ascending: false });
+        .order('good',{ ascending: false });
 
       if(!error && data) {
         setReviews(data);
@@ -76,6 +76,7 @@ export default function ReviewPage() {
             text: reviewText,
             menu_name: subject.h2,
             rating: rating,
+            good: 0,
           },
         ]);
 
@@ -86,7 +87,7 @@ export default function ReviewPage() {
         .from('reviews')
         .select('*')
         .eq('menu_name',subject.h2)
-        .order('created_at',{ ascending: false});
+        .order('good',{ ascending: false});
       setReviews(newReviews || []);
     }
     catch (error) {
@@ -94,7 +95,7 @@ export default function ReviewPage() {
     }
   };
 
-  return (
+return (
     <div className={styles.main}>
       <h1>学食レビュー</h1>
       <h2>{subject.h2}</h2>
@@ -120,16 +121,30 @@ export default function ReviewPage() {
 
       <h2>レビュー一覧</h2>
       <ul>
-        {reviews.map((review) => (
+        {reviews.map((review) => ( 
           <li key={review.id}>
+
             {review.text} (評価: {review.rating})
+            <button type="submit" onClick={async () => {
+              const { data,error } = await supabase
+                .from('reviews')
+                .update({ good: review.good + 1 })
+                .eq('id', review.id);
+                //再び一覧を取得(ただし順序は変えない)
+               const { data: newReviews}= await supabase
+                .from('reviews')
+                .select('*')
+                .eq('menu_name',subject.h2)
+                .order('good',{ ascending: false});
+
+                setReviews(newReviews || []);
+
+            }}>いいね</button>(いいね数:{review.good})
           </li>
         ))}
       </ul>
 
-      
-
-
+    
       <Link href="/">戻る</Link>
     </div>
   )
