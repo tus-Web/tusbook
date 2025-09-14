@@ -63,10 +63,12 @@ export default function Menu() {
             </ol>
             <ul className={styles.ul}>
                 {subjects.map((subject) => (
+                    <div className="menu-item">
                     <li key={subject.id} className={styles.li}>
                         <Link href={`/${subject.id}`}>{subject.name}</Link>
                         <img src={`/images/${subject.id}.webp`} alt={subject.name} className={styles.img} />
                     </li>
+                    </div>
                 ))}
             </ul>
         </main>
