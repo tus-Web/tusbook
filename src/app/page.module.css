@@ -79,6 +79,7 @@
   padding: 20px;
   text-align: center;
   gap: 20px;
+  color: var(--text_primary);
 }
 
 .form {

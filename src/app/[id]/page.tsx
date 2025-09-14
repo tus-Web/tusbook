@@ -21,8 +21,6 @@ const subjects = {
 
 export default function ReviewPage() {
 
-  //supabaseからデータ取得
-
   const params = useParams(); //URLのidを取得するらしい
   const subject = subjects[params.id as keyof typeof subjects]; //URLのidに対応する情報を取得するらしい
 
