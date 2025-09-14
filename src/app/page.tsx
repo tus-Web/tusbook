@@ -70,16 +70,17 @@ export default function Menu() {
             <ul className={styles.ul}>
                 {subjects.map((subject) => (
                     <div className="menu-item" key={subject.id}>
-                    <li key={subject.id} className={styles.li}>
-                        <Link href={`/${subject.id}`}>{subject.name}</Link>
-                        <Image 
-                            src={`/images/${subject.id}.webp`} 
-                            alt={subject.name} 
-                            className={styles.img}
-                            width={200}
-                            height={150}
-                        />
-                    </li>
+                        <li key={subject.id} className={styles.li}>
+                            <Image 
+                                src={`/images/${subject.id}.webp`} 
+                                alt={subject.name} 
+                                className={styles.img}
+                                width={200}
+                                height={150}
+                            />
+                            <Link href={`/${subject.id}`}>{subject.name}</Link>
+
+                        </li>
                     </div>
                 ))}
             </ul>

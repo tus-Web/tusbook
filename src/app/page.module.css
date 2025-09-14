@@ -107,6 +107,11 @@
   text-align: center;
 }
 
+.li {
+  display: flex;
+  flex-direction: column;
+}
+
 .menu-item{
   display: flex;
   text-align: center;
