@@ -1,8 +1,10 @@
 # tusbook
 
-## 🌐 デプロイ
+## 🌐 公開サイト
 
-Vercelでのデプロイ対応。`vercel.json` を追加済み。
+**[→ サイトを開く](https://tusbook.vercel.app)**
+
+Vercelでデプロイ済み。`vercel.json` を追加済み。
 
 理科大総合情報サイト
 
@@ -69,6 +71,4 @@ detail（授業を押すと）
 
 - みんながコメント
 - レビューが活発化
-
-
 
